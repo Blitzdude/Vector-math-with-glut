@@ -151,8 +151,7 @@ public: // methods
 		return !(*this == other);
 	}
 
-	// Length of vector
-	// cross product
+	
 public: // attributes
 	T x;
 	T y;
