@@ -51,19 +51,23 @@ public:
 					 ///////////////////////////////////////////////////////////////////
 
 					 // Determinant calculation
-			Mat3 determinant()
+		Mat3 determinant()
 		{
 			/*
-			|+ - + -|
-			|- + - +|
-			|+ - + -|
-			|- + - +|
+			|00 01 02|00 01
+			|10 11 12|10 11
+			|20 21 22|20 21
 			*/
 
-			// calculate the minor determinants
-			T minor1;
-			T minor2;
-			T minor3;
+			// calculate the six parts
+			T minor1 = elements[0][0] * elements[1][1] * elements[2][2];
+			T minor2 = elements[0][1] * elements[1][2] * elements[2][0];
+			T minor3 = elements[0][2] * elements[1][0] * elements[2][1];
+			T minor4 = elements[2][0] * elements[1][1] * elements[0][2];
+			T minor5 = elements[2][1] * elements[1][2] * elements[0][0];
+			T minor6 = elements[2][2] * elements[1][0] * elements[0][1];
+
+			return minor1 + minor2 + minor3 - minor4 - minor5 - minor6;
 		}
 		// Transpose
 		Mat3 transpose()
