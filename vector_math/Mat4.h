@@ -1,13 +1,19 @@
 #pragma once
 
 #include "Vec4.h"
+#include "Mat3.h"
 
 template<class T>
 class Mat4 {
 public:
 	// Methods
 	
-	Mat4() {}
+	// default constructor, creates an identity matrix
+	Mat4() 
+	{ 
+		*this = Mat4<T>::identity(); 
+	};
+
 	// 16 parameter constructor
 	Mat4(T e11, T e12, T e13, T e14,
 		 T e21, T e22, T e23, T e24,
@@ -68,8 +74,10 @@ public:
 	/* METHODS *///////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////
 
+	
+
 	// Determinant calculation
-	Mat4 determinant()
+	T determinant()
 	{
 		/*
 		|+ - + -|
@@ -78,10 +86,39 @@ public:
 		|- + - +|
 		*/
 
-		// calculate the minor determinants
-		T minor1;
-		T minor2;
-		T minor3;
+		// calculate the subMatrix 3x3 matrices
+		Mat3<T> subMatrix1(
+			elements[1][1], elements[1][2], elements[1][3],
+			elements[2][1], elements[2][2], elements[2][3],
+			elements[3][1], elements[3][2], elements[3][3]
+			);
+
+		Mat3<T> subMatrix2(
+			elements[1][0], elements[1][2], elements[1][3],
+			elements[2][0], elements[2][2], elements[2][3],
+			elements[3][0], elements[3][2], elements[3][3]
+			);
+
+		Mat3<T> subMatrix3(
+			elements[1][0], elements[1][1], elements[1][3],
+			elements[2][0], elements[2][1], elements[2][3],
+			elements[3][0], elements[3][1], elements[3][3]
+		);
+
+		Mat3<T> subMatrix4(
+			elements[1][0], elements[1][1], elements[1][2],
+			elements[2][0], elements[2][1], elements[2][2],
+			elements[3][0], elements[3][1], elements[3][2]
+		);
+
+		// calculate the minors determinants
+		T value1 = subMatrix1.determinant() * elements[0][0];
+		T value2 = subMatrix2.determinant() * elements[0][1];
+		T value3 = subMatrix3.determinant() * elements[0][2];
+		T value4 = subMatrix4.determinant() * elements[0][3];
+
+		// return the real determinant
+		return value1 - value2 + value3 - value4;
 	}
 	// Transpose
 	Mat4 transpose()

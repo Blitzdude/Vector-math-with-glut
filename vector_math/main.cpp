@@ -38,6 +38,21 @@ void printMat4(const char* const name, const Mat4<float>& m)
 
 }
 
+void printMat3(const char* const name, const Mat3<float>& m)
+{
+	printf("%-12s = \n", name);
+	for (size_t j = 0; j < 3; j++)
+	{
+		printf("[ ");
+		for (size_t i = 0; i < 3; i++)
+		{
+			printf(" %2.2f ", m.elements[j][i]);
+		}
+		printf("]\n");
+	}
+
+}
+
 int main(int argc, char ** argv) {
 	/* TODO implement glut
 	glutInit(&argc, argv);
@@ -87,29 +102,30 @@ int main(int argc, char ** argv) {
 	printf("v1 is equal v2    = %d\n", v4d_1 == v4d_2);
 	*/
 
-	Mat4<float> mat1(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		2.0f, 2.0f, 2.0f, 2.0f,
-		3.0f, 3.0f, 3.0f, 3.0f,
-		4.0f, 4.0f, 4.0f, 4.0f);
+	Mat3<float> mat1 = {
+		1.0f, 2.0f, 1.0f,
+		0.0f, 3.0f, 9.0f,
+		1.0f, 2.0f, 7.0f
+	};
 
-	printMat4("matrix1", mat1);
+	printMat3("mat1", mat1);
 
-	mat1 = mat1.transpose();
+	printf("mat1 Det: %2.2f", mat1.determinant());
 
-	printMat4("matrix1", mat1);
-	
-	Mat4<float> rotMatZ = Mat4<float>::rotationZ(toRadians(180.0f));
-	printMat4("rotMatZ", rotMatZ);
-	Vec4<float> res1 = Vec4<float>(1.0f, 2.0f, 2.0f, 3.0f) * mat1;
-	
-	printVec4("res1", res1);
-	
+	Mat4<float> mat2 = {
+		1.0f, 2.0f, 1.0f, 4.0f,
+		2.0f, 5.0f, 1.0f, 0.0f,
+		13.0f, 4.0f, 1.0f, 1.0f,
+		1.0f, 9.0f, 20.0f, 1.0f
+	};
+
+	printMat4("mat2", mat2);
+
+	printf("mat2 Det: %2.2f\n", mat2.determinant());
+
 
 	// ask for input to stop program from running
-	int a;
-	printf("Enter any char to exit >> ");
-	std::cin >> a;
+	std::cin.get();
 
 	return 0;
 }
