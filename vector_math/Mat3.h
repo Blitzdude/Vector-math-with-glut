@@ -175,6 +175,7 @@ Mat3& operator*=(T other)
 			e *= other;
 		}
 	}
+	return *this;
 }
 
 // * multiplies matrix with scalar

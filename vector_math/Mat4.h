@@ -134,7 +134,7 @@ public:
 		return result;
 	}
 	// Inverse Operation
-
+	
 	// Identity
 	static Mat4 identity()
 	{

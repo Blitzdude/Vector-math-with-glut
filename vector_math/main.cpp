@@ -53,6 +53,22 @@ void printMat3(const char* const name, const Mat3<float>& m)
 
 }
 
+void printMat2(const char* const name, const Mat2<float>& m)
+{
+	printf("%-12s = \n", name);
+	for (size_t j = 0; j < 2; j++)
+	{
+		printf("[ ");
+		for (size_t i = 0; i < 2; i++)
+		{
+			printf(" %2.2f ", m.elements[j][i]);
+		}
+		printf("]\n");
+	}
+
+}
+
+
 int main(int argc, char ** argv) {
 	/* TODO implement glut
 	glutInit(&argc, argv);
@@ -123,6 +139,18 @@ int main(int argc, char ** argv) {
 
 	printf("mat2 Det: %2.2f\n", mat2.determinant());
 
+	Mat2<float> mat3 = {
+		2.0f, 4.0f,
+		6.0f, 3.0f
+	};
+
+	printMat2("mat3", mat3);
+
+	Mat2<float> mat4 = mat3.inverted();
+
+	printMat2("mat3", mat4);
+
+	printMat2("mat*mat_inv", mat4*mat3);
 
 	// ask for input to stop program from running
 	std::cin.get();

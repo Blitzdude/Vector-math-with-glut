@@ -37,7 +37,7 @@ public:
 	///////////////////////////////////////////////////////////////////
 
 	// Determinant calculation
-	Mat2 determinant()
+	T determinant()
 	{
 		/*
 		|+ -|
@@ -60,14 +60,45 @@ public:
 		}
 		return result;
 	}
-	// Inverse Operation
+	// Inverse Operation - returns null if no inverse exists
+	Mat2 inverted() {
+		/*
+		* inverse of a 2x2 matrix is:
+		*					  [ e22 -e12 ]  
+		* 1/(M.determinant) * [-e21  e11 ]
+		*
+		*/
 
+		// make sure determinant is not 0
+		if (determinant() == 0.0)
+			return Mat2::zeroes(); // if det = 0, return NULL
+		
+		// if determinant is not zero, inverted matrix exists
+		
+		// create the cofactor matrix
+		Mat2 cofactor(
+			elements[1][1], -elements[0][1],
+			-elements[1][0], elements[0][0]
+		);
+		// multiply cofactor with the repriprocal of the determinant (1/det)
+		T invDet = 1 / determinant();
+		return cofactor * invDet;
+
+	}
 	// Identity
 	static Mat2 identity()
 	{
 		return {
 			(T)1.0, (T)0.0,
-			(T)0.0, (T)1.0,
+			(T)0.0, (T)1.0
+		};
+	}
+	// zero matrix
+	static Mat2 zeroes()
+	{
+		return {
+			(T)0.0, (T)0.0,
+			(T)0.0, (T)0.0
 		};
 	}
 	// scaling
@@ -111,6 +142,7 @@ public:
 				e *= other;
 			}
 		}
+		return *this;
 	}
 
 	// * multiplies matrix with scalar
