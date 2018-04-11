@@ -86,36 +86,41 @@ public:
 		|- + - +|
 		*/
 
+		// lambda function for lazyness
+		auto e = [&](size_t a, size_t b) -> T {
+			return elements[a][b];
+		};
+
 		// calculate the subMatrix 3x3 matrices
 		Mat3<T> subMatrix1(
-			elements[1][1], elements[1][2], elements[1][3],
-			elements[2][1], elements[2][2], elements[2][3],
-			elements[3][1], elements[3][2], elements[3][3]
+			e(1,1), e(1,2), e(1,3),
+			e(2,1), e(2,2), e(2,3),
+			e(3,1), e(3,2), e(3,3)
 			);
 
 		Mat3<T> subMatrix2(
-			elements[1][0], elements[1][2], elements[1][3],
-			elements[2][0], elements[2][2], elements[2][3],
-			elements[3][0], elements[3][2], elements[3][3]
+			e(1,0), e(1,2), e(1,3),
+			e(2,0), e(2,2), e(2,3),
+			e(3,0), e(3,2), e(3,3)
 			);
 
 		Mat3<T> subMatrix3(
-			elements[1][0], elements[1][1], elements[1][3],
-			elements[2][0], elements[2][1], elements[2][3],
-			elements[3][0], elements[3][1], elements[3][3]
+			e(1,0), e(1,1), e(1,3),
+			e(2,0), e(2,1), e(2,3),
+			e(3,0), e(3,1), e(3,3)
 		);
 
 		Mat3<T> subMatrix4(
-			elements[1][0], elements[1][1], elements[1][2],
-			elements[2][0], elements[2][1], elements[2][2],
-			elements[3][0], elements[3][1], elements[3][2]
+			e(1,0), e(1,1), e(1,2),
+			e(2,0), e(2,1), e(2,2),
+			e(3,0), e(3,1), e(3,2)
 		);
 
 		// calculate the minors determinants
-		T value1 = subMatrix1.determinant() * elements[0][0];
-		T value2 = subMatrix2.determinant() * elements[0][1];
-		T value3 = subMatrix3.determinant() * elements[0][2];
-		T value4 = subMatrix4.determinant() * elements[0][3];
+		T value1 = subMatrix1.determinant() * e(0,0);
+		T value2 = subMatrix2.determinant() * e(0,1);
+		T value3 = subMatrix3.determinant() * e(0,2);
+		T value4 = subMatrix4.determinant() * e(0,3);
 
 		// return the real determinant
 		return value1 - value2 + value3 - value4;
@@ -135,6 +140,134 @@ public:
 	}
 	// Inverse Operation
 	
+	Mat4 inverted() 
+	{
+
+		// calculate matrix minors
+		/*
+		| 00 01 02 03 |
+		| 10 11 12 13 |
+		| 20 21 22 23 |
+		| 30 31 32 33 |
+		*/
+		
+		// lambda function for lazyness
+		auto e = [&](size_t a, size_t b) -> T {
+			return elements[a][b];
+		};
+
+		// 1st row
+		Mat3<T> minor00(
+			e(1, 1), e(1, 2), e(1, 3),
+			e(2, 1), e(2, 2), e(2, 3),
+			e(3, 1), e(3, 2), e(3, 3)
+		);
+		Mat3<T> minor01(
+			e(1, 0), e(1, 2), e(1, 3),
+			e(2, 0), e(2, 2), e(2, 3),
+			e(3, 0), e(3, 2), e(3, 3)
+		);
+
+		Mat3<T> minor02(
+			e(1, 0), e(1, 1), e(1, 3),
+			e(2, 0), e(2, 1), e(2, 3),
+			e(3, 0), e(3, 1), e(3, 3)
+		);
+		Mat3<T> minor03(
+			e(1, 0), e(1, 1), e(1, 2),
+			e(2, 0), e(2, 1), e(2, 2),
+			e(3, 0), e(3, 1), e(3, 2)
+		);
+
+		// 2nd row
+		Mat3<T> minor10(
+			e(0, 1), e(0, 2), e(0, 3),
+			e(2, 1), e(2, 2), e(2, 3),
+			e(3, 1), e(3, 2), e(3, 3)
+		);
+		Mat3<T> minor11(
+			e(0, 0), e(0, 2), e(0, 3),
+			e(2, 0), e(2, 2), e(2, 3),
+			e(3, 0), e(3, 2), e(3, 3)
+		);
+		Mat3<T> minor12(
+			e(0, 0), e(0, 1), e(0, 3),
+			e(2, 0), e(2, 1), e(2, 3),
+			e(3, 0), e(3, 1), e(3, 3)
+		);
+		Mat3<T> minor13(
+			e(0, 0), e(0, 1), e(0, 2),
+			e(2, 0), e(2, 1), e(2, 2),
+			e(3, 0), e(3, 1), e(3, 2)
+		);
+
+		// 3rd row
+		Mat3<T> minor20(
+			e(0, 1), e(0, 2), e(0, 3),
+			e(1, 1), e(1, 2), e(1, 3),
+			e(3, 1), e(3, 2), e(3, 3)
+		);
+		Mat3<T> minor21(
+			e(0, 0), e(0, 2), e(0, 3),
+			e(1, 0), e(1, 2), e(1, 3),
+			e(3, 0), e(3, 2), e(3, 3)
+		);
+
+		/*
+		| 00 01 02 03 |
+		| 10 11 12 13 |
+		| 20 21 22 23 |
+		| 30 31 32 33 |
+		*/
+
+		Mat3<T> minor22(
+			e(0, 0), e(0, 1), e(0, 3),
+			e(1, 0), e(1, 1), e(1, 3),
+			e(3, 0), e(3, 1), e(3, 3)
+		);
+		Mat3<T> minor23(
+			e(0, 0), e(0, 1), e(0, 2),
+			e(1, 0), e(1, 1), e(1, 2),
+			e(3, 0), e(3, 1), e(3, 2)
+		);
+		
+		// 4th row
+		Mat3<T> minor30(
+			e(0, 1), e(0, 2), e(0, 3),
+			e(1, 1), e(1, 2), e(1, 3),
+			e(2, 1), e(2, 2), e(2, 3)
+		);
+		Mat3<T> minor31(
+			e(0, 0), e(0, 2), e(0, 3),
+			e(1, 0), e(1, 2), e(1, 3),
+			e(2, 0), e(2, 2), e(2, 3)
+		);
+
+		Mat3<T> minor32(
+			e(0, 0), e(0, 1), e(0, 3),
+			e(1, 0), e(1, 1), e(1, 3),
+			e(2, 0), e(2, 1), e(2, 3)
+		);
+		Mat3<T> minor33(
+			e(0, 0), e(0, 1), e(0, 2),
+			e(1, 0), e(1, 1), e(1, 2),
+			e(2, 0), e(2, 1), e(2, 2)
+		);
+
+		// calculate cofactor using minors
+		Mat4 cofactor(
+			minor00.determinant(), -minor01.determinant(), minor02.determinant(), -minor03.determinant(),
+			-minor10.determinant(), minor11.determinant(), -minor12.determinant(), minor13.determinant(),
+			minor20.determinant(), -minor21.determinant(), minor22.determinant(), -minor23.determinant(),
+			-minor30.determinant(), minor31.determinant(), -minor32.determinant(), minor33.determinant()
+		);
+
+		// transpose cofactor to find adjugate matrix
+		// M_inv = 1/det(M) * adjugate(M)
+
+		return cofactor.transpose() * (1.0 / this->determinant());
+	}
+
 	// Identity
 	static Mat4 identity()
 	{
@@ -222,6 +355,7 @@ public:
 				e *= other;
 			}
 		}
+		return *this;
 	}
 
 	// * multiplies matrix with scalar
@@ -262,16 +396,50 @@ public: // attributes
 	T elements[4][4];
 };
 
-// Vector4 = Mat4 - Vector4 product
+// Vector4 =  Mat4 * Vector4 product
 template<typename T>
-Vec4<T>& operator*=(Vec3<T>& lhs, const Mat4<T>& rhs)
+Vec4<T>& operator*=(const Mat4<T>& lhs, const Vec4<T>& rhs)
 {
 	return lhs = lhs * rhs;
 }
 
 template<typename T>
+Vec4<T> operator* (const Mat4<T>& lhs, const Vec4<T>& rhs)
+{
+	/*
+	| 00 01 02 03 |[x]
+	| 10 11 12 13 |[y]
+	| 20 21 22 23 |[z]
+	| 30 31 32 33 |[w]
+	*/
+	return {
+		rhs.x * lhs.elements[0][0] + rhs.y * lhs.elements[0][1] + rhs.z * lhs.elements[0][2] + rhs.w * lhs.elements[0][3],
+		rhs.x * lhs.elements[1][0] + rhs.y * lhs.elements[1][1] + rhs.z * lhs.elements[1][2] + rhs.w * lhs.elements[1][3],
+		rhs.x * lhs.elements[2][0] + rhs.y * lhs.elements[2][1] + rhs.z * lhs.elements[2][2] + rhs.w * lhs.elements[2][3],
+		rhs.x * lhs.elements[3][0] + rhs.y * lhs.elements[3][1] + rhs.z * lhs.elements[3][2] + rhs.w * lhs.elements[3][3]
+	};
+}
+
+/*
+// TODO:: should vector - matrix product be defined? in that order
+
+// Vector4 =  Vector4 product * Mat4 
+template<typename T>
+Vec4<T>& operator*=(Vec4<T>& lhs, const Mat4<T>& rhs)
+{
+	return lhs = lhs * rhs;
+}
+
+template<typename T> // TODO: is there vector matrix product
 Vec4<T> operator* (const Vec4<T>& lhs, const Mat4<T>& rhs)
 {
+	
+	//			  | 00 01 02 03 |
+	//			  | 10 11 12 13 |
+	//	<x y z w> | 20 21 22 23 |
+	//			  | 30 31 32 33 |
+	
+
 	return {
 		lhs.x * rhs.elements[0][0] + lhs.y * rhs.elements[1][0] + lhs.z * rhs.elements[2][0] + lhs.w * rhs.elements[3][0],
 		lhs.x * rhs.elements[0][1] + lhs.y * rhs.elements[1][1] + lhs.z * rhs.elements[2][1] + lhs.w * rhs.elements[3][1],
@@ -279,3 +447,6 @@ Vec4<T> operator* (const Vec4<T>& lhs, const Mat4<T>& rhs)
 		lhs.x * rhs.elements[0][3] + lhs.y * rhs.elements[1][3] + lhs.z * rhs.elements[2][3] + lhs.w * rhs.elements[3][3]
 	};
 }
+*/
+
+

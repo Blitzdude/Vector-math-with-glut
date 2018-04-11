@@ -45,7 +45,7 @@ public:
 		*/
 
 		// calculate the minor determinants
-		return elements[0][0] * elements[1][1] - elements[1][0] * elements[0][1];
+		return (elements[0][0] * elements[1][1]) - (elements[1][0] * elements[0][1]);
 	}
 	// Transpose
 	Mat2 transpose()

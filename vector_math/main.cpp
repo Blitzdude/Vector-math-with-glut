@@ -31,7 +31,7 @@ void printMat4(const char* const name, const Mat4<float>& m)
 		printf("[ ");
 		for (size_t i = 0; i < 4; i++)
 		{
-			printf(" %2.2f ", m.elements[j][i]);
+			printf(" %4.4f ", m.elements[j][i]);
 		}
 		printf("]\n");
 	}
@@ -46,7 +46,7 @@ void printMat3(const char* const name, const Mat3<float>& m)
 		printf("[ ");
 		for (size_t i = 0; i < 3; i++)
 		{
-			printf(" %2.2f ", m.elements[j][i]);
+			printf(" %3.3f ", m.elements[j][i]);
 		}
 		printf("]\n");
 	}
@@ -61,99 +61,99 @@ void printMat2(const char* const name, const Mat2<float>& m)
 		printf("[ ");
 		for (size_t i = 0; i < 2; i++)
 		{
-			printf(" %2.2f ", m.elements[j][i]);
+			printf(" %4.4f ", m.elements[j][i]);
 		}
 		printf("]\n");
 	}
 
 }
 
-
 int main(int argc, char ** argv) {
-	/* TODO implement glut
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	glutCreateWindow("Vector Demo");
-	*/
+	
+	// Tehtävä 2 - 4x4 matriisi
 
-	// Vector 3d Tests - TEHTÄVÄNANTO TÄSSÄ!!!!
+	Mat4<float> mat1 = Mat4<float>(
+		Vec4<float>(1, 0, 0, 0),
+		Vec4<float>(0, 1, 0, 0),
+		Vec4<float>(1, 0, 1, 0),
+		Vec4<float>(1, 0, 0, 1)
+		);
+
+	// sama voitaisin toteuttaa
 	/*
-	printf("VECTOR3D\n");
-	Vec3<float> v1(1, 2, 3);
-	Vec3<float> v2(4, 4, 5);
-	printVec3("v1", v1);
-	printVec3("v2", v2);
-	printVec3("v1 + v2", v1 + v2);
-	printVec3("v1 - v2", v1 - v2);
-	printVec3("v1 cross v2", Vec3<float>::CrossProduct(v1, v2));
+	Mat4<float> mat1 = Mat4<float>::zeroes;
 	*/
 
-	// Vector 2d Tests
-	/*
-	printf("\n\nVECTOR2D\n");
-	Vec2<float> v2d_1(3.0f, 2.0f);
-	Vec2<float> v2d_2(4.0f, 1.0f);
-	printVec2("v2d_1", v2d_1);
-	printVec2("v2d_2", v2d_2);
-	printVec2("v2d_1 + v2d_2", v2d_1 + v2d_2);
-	printVec2("v2d_1 - v2d_2", v2d_1 - v2d_2);
-	printf("v1 cross v2    = %2.2f\n", Vec2<float>::CrossProduct(v2d_1, v2d_2));
+	Mat4<float> rotMatX = Mat4<float>::rotationX(toRadians(45));
+	Mat4<float> rotMatY = Mat4<float>::rotationY(toRadians(180));
+	Mat4<float> rotMatZ = Mat4<float>::rotationZ(toRadians(90));
 
-	printf("length squared    = %2.2f\n", v2d_1.sqLength());
-	printf("v1 length    = %2.2f\n", v2d_1.length());
-	*/
+	Vec4<float>(1.0f, 2.0f, 3.0f, 4.0f);
+	Vec4<float> res1 = mat1 * Vec4<float>(1,2,3,4);
+	Vec4<float> res2 = rotMatX * Vec4<float>(1,0,0,0);
+	Vec4<float> res3 = rotMatY * Vec4<float>(1,0,0,0);
+	Vec4<float> res4 = rotMatZ * Vec4<float>(0,1,0,0);
+	Vec4<float> res5 = Vec4<float>(0,1,0,0);
+	Vec4<float> res6 = rotMatZ * rotMatY * rotMatX * Vec4<float>(-1,-1,-1,0);
 
-	/*
-	// Vector 4d Tests
-	printf("\n\nVECTOR4D\n");
-	Vec4<float> v4d_1(3.0f, 2.0f, 2.0f, 1.0f);
-	Vec4<float> v4d_2(1.0f, 2.0f, 5.0f, 3.0f);
-	printVec4("v4d_1", v4d_1);
-	printVec4("v4d_2", v4d_2);
-	printVec4("v1 + v2", v4d_1 + v4d_2);
-	printVec4("v1 - v2", v4d_1 - v4d_2);
-	printf("v1 is equal v2    = %d\n", v4d_1 == v4d_2 );
-	v4d_2 = v4d_1;
-	printf("v1 is equal v2    = %d\n", v4d_1 == v4d_2);
-	*/
-
-	Mat3<float> mat1 = {
-		1.0f, 2.0f, 1.0f,
-		0.0f, 3.0f, 9.0f,
-		1.0f, 2.0f, 7.0f
-	};
-
-	printMat3("mat1", mat1);
-
-	printf("mat1 Det: %2.2f", mat1.determinant());
-
-	Mat4<float> mat2 = {
-		1.0f, 2.0f, 1.0f, 4.0f,
-		2.0f, 5.0f, 1.0f, 0.0f,
-		13.0f, 4.0f, 1.0f, 1.0f,
-		1.0f, 9.0f, 20.0f, 1.0f
-	};
-
-	printMat4("mat2", mat2);
-
-	printf("mat2 Det: %2.2f\n", mat2.determinant());
-
-	Mat2<float> mat3 = {
-		2.0f, 4.0f,
-		6.0f, 3.0f
-	};
-
-	printMat2("mat3", mat3);
-
-	Mat2<float> mat4 = mat3.inverted();
-
-	printMat2("mat3", mat4);
-
-	printMat2("mat*mat_inv", mat4*mat3);
+	printVec4("res1", res1);
+	printVec4("res2", res2);
+	printVec4("res3", res3);
+	printVec4("res4", res4);
+	printVec4("res5", res5);
+	printVec4("res6", res6);
 
 	// ask for input to stop program from running
 	std::cin.get();
 
 	return 0;
 }
+
+// VANHAA KOODIA
+/* TODO implement glut
+glutInit(&argc, argv);
+glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+glutCreateWindow("Vector Demo");
+*/
+
+// Vector 3d Tests - TEHTÄVÄNANTO TÄSSÄ!!!!
+/*
+printf("VECTOR3D\n");
+Vec3<float> v1(1, 2, 3);
+Vec3<float> v2(4, 4, 5);
+printVec3("v1", v1);
+printVec3("v2", v2);
+printVec3("v1 + v2", v1 + v2);
+printVec3("v1 - v2", v1 - v2);
+printVec3("v1 cross v2", Vec3<float>::CrossProduct(v1, v2));
+*/
+
+// Vector 2d Tests
+/*
+printf("\n\nVECTOR2D\n");
+Vec2<float> v2d_1(3.0f, 2.0f);
+Vec2<float> v2d_2(4.0f, 1.0f);
+printVec2("v2d_1", v2d_1);
+printVec2("v2d_2", v2d_2);
+printVec2("v2d_1 + v2d_2", v2d_1 + v2d_2);
+printVec2("v2d_1 - v2d_2", v2d_1 - v2d_2);
+printf("v1 cross v2    = %2.2f\n", Vec2<float>::CrossProduct(v2d_1, v2d_2));
+
+printf("length squared    = %2.2f\n", v2d_1.sqLength());
+printf("v1 length    = %2.2f\n", v2d_1.length());
+*/
+
+/*
+// Vector 4d Tests
+printf("\n\nVECTOR4D\n");
+Vec4<float> v4d_1(3.0f, 2.0f, 2.0f, 1.0f);
+Vec4<float> v4d_2(1.0f, 2.0f, 5.0f, 3.0f);
+printVec4("v4d_1", v4d_1);
+printVec4("v4d_2", v4d_2);
+printVec4("v1 + v2", v4d_1 + v4d_2);
+printVec4("v1 - v2", v4d_1 - v4d_2);
+printf("v1 is equal v2    = %d\n", v4d_1 == v4d_2 );
+v4d_2 = v4d_1;
+printf("v1 is equal v2    = %d\n", v4d_1 == v4d_2);
+*/

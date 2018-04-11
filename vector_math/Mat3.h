@@ -58,18 +58,34 @@ T determinant()
 	|10 11 12|10 11
 	|20 21 22|20 21
 	*/
-		
 
+	//#define e(a,b) elements[a][b];
+	//typedef T(Mat3::elements[a][b]) e(a, b);
 	// calculate the six parts
+	
+	auto e = [&](size_t a0, size_t a1) -> T {
+		return elements[a0][a1];
+	};
+
+	T sub1 = e(0,0) * e(1,1) * e(2,2); // TODO: make this
+	T sub2 = e(0,1) * e(1,2) * e(2,0);
+	T sub3 = e(0,2) * e(1,0) * e(2,1);
+	T sub4 = e(2,0) * e(1,1) * e(0,2);
+	T sub5 = e(2,1) * e(1,2) * e(0,0);
+	T sub6 = e(2,2) * e(1,0) * e(0,1);
+	
+	/*
 	T sub1 = elements[0][0] * elements[1][1] * elements[2][2];
 	T sub2 = elements[0][1] * elements[1][2] * elements[2][0];
 	T sub3 = elements[0][2] * elements[1][0] * elements[2][1];
 	T sub4 = elements[2][0] * elements[1][1] * elements[0][2];
 	T sub5 = elements[2][1] * elements[1][2] * elements[0][0];
 	T sub6 = elements[2][2] * elements[1][0] * elements[0][1];
+	*/
 
 	return sub1 + sub2 + sub3 - sub4 - sub5 - sub6;
 }
+
 // Transpose
 Mat3 transpose()
 {
@@ -85,6 +101,72 @@ Mat3 transpose()
 }
 // Inverse Operation
 
+Mat3 inverted() {
+	// calculate the minor matrices
+
+	auto e = [&](size_t a, size_t b) -> T {
+		return elements[a][b];
+	};
+
+	Mat2<T> minor00 (
+		e(1,1), e(1,2),
+		e(2,1), e(2,2)
+	);
+
+	Mat2<T> minor01(
+		e(1, 0), e(1, 2),
+		e(2, 0), e(2, 2)
+	);
+
+	Mat2<T> minor02(
+		e(1, 0), e(1, 1),
+		e(2, 0), e(2, 1)
+	);
+
+	Mat2<T> minor10(
+		e(0, 1), e(0, 2),
+		e(2, 1), e(2, 2)
+	);
+
+	Mat2<T> minor11(
+		e(0, 0), e(0, 2),
+		e(2, 0), e(2, 2)
+	);
+
+	Mat2<T> minor12(
+		e(0, 0), e(0, 1),
+		e(2, 0), e(2, 1)
+	);
+	
+	Mat2<T> minor20(
+		e(0, 1), e(0, 2),
+		e(1, 1), e(1, 2)
+	);
+
+	Mat2<T> minor21(
+		e(0, 0), e(0, 2),
+		e(1, 0), e(1, 2)
+	);
+
+	Mat2<T> minor22(
+		e(0, 0), e(0, 1),
+		e(1, 0), e(1, 1)
+	);
+
+	// calculate the cofactor matrix
+	Mat3 cofactor(
+		minor00.determinant(), -minor01.determinant(), minor02.determinant(),
+		-minor10.determinant(), minor11.determinant(), -minor12.determinant(),
+		minor20.determinant(), -minor21.determinant(), minor22.determinant() );
+	
+	// transpose the cofactor
+	// calculate the determinant 
+
+	/*
+		M_inv = 1/det(M)* cofactor^T */
+
+	return cofactor.transpose() * (1.0 / this->determinant());
+}
 // Identity
 static Mat3 identity()
 {
