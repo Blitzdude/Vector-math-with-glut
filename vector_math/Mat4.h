@@ -422,6 +422,7 @@ Vec4<T> operator* (const Mat4<T>& lhs, const Vec4<T>& rhs)
 
 /*
 // TODO:: should vector - matrix product be defined? in that order
+// if defined-> produces a matrix, not a vector
 
 // Vector4 =  Vector4 product * Mat4 
 template<typename T>

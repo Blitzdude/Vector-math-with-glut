@@ -173,5 +173,5 @@ public: // attributes
 	T y;
 	T z;
 	T w;
-};
 
+};

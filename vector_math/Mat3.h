@@ -298,7 +298,7 @@ public: // attributes
 	T elements[3][3];
 };
 
-// Vector4 = Mat3 - Vector4 product
+// Vector3 = Mat3 - Vector3 product
 template<typename T>
 Vec3<T>& operator*=(Vec3<T>& lhs, const Mat3<T>& rhs)
 {
@@ -314,3 +314,5 @@ Vec3<T> operator* (const Vec3<T>& lhs, const Mat3<T>& rhs)
 		lhs.x * rhs.elements[0][2] + lhs.y * rhs.elements[1][2] + lhs.z * rhs.elements[2][2]
 	};
 }
+
+

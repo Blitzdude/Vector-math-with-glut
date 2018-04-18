@@ -8,6 +8,7 @@
 #include "Vec4.h"
 #include "Mat4.h"
 
+
 void printVec4(const char* const name, const Vec4<float>& v)
 {
 	printf("%-12s = <%2.2f, %2.2f, %2.2f, %2.2f>\n", name, v.x, v.y, v.z, v.w);
@@ -75,8 +76,8 @@ int main(int argc, char ** argv) {
 	Mat4<float> mat1 = Mat4<float>(
 		Vec4<float>(1, 0, 0, 0),
 		Vec4<float>(0, 1, 0, 0),
-		Vec4<float>(1, 0, 1, 0),
-		Vec4<float>(1, 0, 0, 1)
+		Vec4<float>(0, 0, 1, 0),
+		Vec4<float>(0, 0, 0, 1)
 		);
 
 	// sama voitaisin toteuttaa
@@ -93,8 +94,8 @@ int main(int argc, char ** argv) {
 	Vec4<float> res2 = rotMatX * Vec4<float>(1,0,0,0);
 	Vec4<float> res3 = rotMatY * Vec4<float>(1,0,0,0);
 	Vec4<float> res4 = rotMatZ * Vec4<float>(0,1,0,0);
-	Vec4<float> res5 = Vec4<float>(0,1,0,0);
-	Vec4<float> res6 = rotMatZ * rotMatY * rotMatX * Vec4<float>(-1,-1,-1,0);
+	Vec4<float> res5 = rotMatX.inverted() * Vec4<float>(0.0f, 1.0f, 0.0f, 0.0f);
+	Vec4<float> res6 = rotMatZ * rotMatY * rotMatX.inverted() * Vec4<float>(-1,-1,-1,0);
 
 	printVec4("res1", res1);
 	printVec4("res2", res2);
